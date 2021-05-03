@@ -1,0 +1,32 @@
+{
+  "dependencies": {
+    "axios": "^0.21.1",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "init": "^0.1.2",
+    "mongo": "^0.1.0",
+    "mongoose": "^5.12.7",
+    "nodemon": "^2.0.7"
+  },
+  "name": "taco-tuesday-backend",
+  "description": "",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "watch": "server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hgbritten/taco-tuesday-backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hgbritten/taco-tuesday-backend/issues"
+  },
+  "homepage": "https://github.com/hgbritten/taco-tuesday-backend#readme"
+}
