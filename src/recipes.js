@@ -11,30 +11,30 @@ const tacoRec = require('../tacorecipes.json');
 
 
 
-Recipe.getAllRecipes = async (request, response) => {
-  const ingredient = 'beef'
-  // const ingredient = request.body.ingredient;
-  // const ingredient2 = request.body.ingredient2;
-  // const ingredient3 = request.body.ingredient3;
+Recipe.getAllFilteredRecipes = async (request, response) => {
+  const meat = 'beef'
+  // const meat = request.body.meat;
+  // const vegetable = request.body.vegetable;
+  // const other = request.body.other;
 
   const key = process.env.RECIPE_API_KEY;
   const url = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${key}&query=Taco&addRecipeInformation=true&number=100`
   const urlResult = await superagent.get(url)
   // const recipes = await RecipeModel.find({});
-  const filter = Recipe.filterRecipes(tacoRec.results, ingredient);
-  // const filter2 = Recipe.filterRecipes(filter, ingredient2);
-  // const filter3 = Recipe.filterRecipes(filter2, ingredient3);
+  const filterMeat = Recipe.filterRecipes(tacoRec.results, meat);
+  // const filterVeg = Recipe.filterRecipes(filterMeat, vegetable);
+  // const filterOther = Recipe.filterRecipes(filterVeg, other);
 
-  const searchedRecipes = filter3.map(recipe => new ShinyRecipes(recipe));
+  const searchedRecipes = filterMeat.map(recipe => new ShinyRecipes(recipe));
 
-  console.log(filter.length);
-  response.status(200).json(urlResult.body);
+  console.log(searchedRecipes);
+  response.status(200).json(searchedRecipes);
 }
 
 class ShinyRecipes {
   constructor(recipe) {
-      this.title = recipe.title,
-      this.ingredientName = recipe.analyzedInstructions.steps.ingredients.name,
+    this.title = recipe.title,
+      // this.ingredientName = recipe.analyzedInstructions.steps.ingredients.name,
       this.image = recipe.image,
       this.summary = recipe.summary;
   }
