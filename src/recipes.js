@@ -12,7 +12,6 @@ const tacoRec = require('../tacorecipes.json');
 
 
 Recipe.getAllRecipes = async (request, response) => {
-  // const id = request.params.id;
   const ingredient = 'beef'
   // const ingredient = request.body.ingredient;
   // const ingredient2 = request.body.ingredient2;
@@ -34,8 +33,8 @@ Recipe.getAllRecipes = async (request, response) => {
 
 class ShinyRecipes {
   constructor(recipe) {
-    this.title = recipe.title,
-      this.instructions = recipe.analyzedInstructions.steps.ingredients,
+      this.title = recipe.title,
+      this.ingredientName = recipe.analyzedInstructions.steps.ingredients.name,
       this.image = recipe.image,
       this.summary = recipe.summary;
   }
