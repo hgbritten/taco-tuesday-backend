@@ -130,10 +130,10 @@ Recipe.getAllFilteredRecipes = async (request, response) => {
 
 class ShinyRecipes {
   constructor(recipe) {
-    this.title = recipe.title,
-      // this.ingredientName = recipe.analyzedInstructions.steps.ingredients.name,
-      this.image = recipe.image,
-      this.summary = recipe.summary;
+    this.title = recipe.title;
+    // this.ingredientName = recipe.analyzedInstructions.steps.ingredients.name,
+    this.image = recipe.image;
+    this.summary = recipe.summary;
     this.id = recipe.id;
   }
 
