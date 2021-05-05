@@ -14,7 +14,7 @@ const tacoRec = require('../tacorecipes.json');
 Recipe.getAllFilteredRecipes = async (request, response) => {
   // const meat = 'beef'
   const meat = request.query.meat;
-  console.log(request.query.meat);
+
   const vegetable = request.query.vegetable;
   const other = request.query.other;
 
@@ -34,8 +34,20 @@ Recipe.getAllFilteredRecipes = async (request, response) => {
     const filterMeat = Recipe.filterRecipes(tacoRec.results, meat.toLowerCase());
     const filterVeg = Recipe.filterRecipes(filterMeat, vegetable.toLowerCase());
     const filterOther = Recipe.filterRecipes(filterVeg, other.toLowerCase());
+    console.log('filter', filterOther);
 
-    const searchedRecipes = filterOther.map(recipe => new ShinyRecipes(recipe));
+    const singleRecipes = filterOther.filter((val, idx, arr) => {
+      if (idx === 0) {
+        return val;
+      } else {
+        if (val.title !== arr[idx - 1].title) {
+          return val;
+        }
+      }
+    })
+
+    // console.log(singleRecipes);
+    const searchedRecipes = singleRecipes.map(recipe => new ShinyRecipes(recipe));
 
     console.log(searchedRecipes);
     response.status(200).json(searchedRecipes);
@@ -76,10 +88,11 @@ Recipe.filterRecipes = (arr, target) => {
     for (let j = 0; j < steps.length; j++) {
       // console.log(steps[j]);
       for (let k = 0; k < steps[j].ingredients.length; k++) {
-        if (steps[j].ingredients[k].name === target) {
+        if (steps[j].ingredients[k].name.includes(target)) {
           filteredRecipesArr.push(arr[i]);
         }
       }
+
     }
   }
   return filteredRecipesArr;
