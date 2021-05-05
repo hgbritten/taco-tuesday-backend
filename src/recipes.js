@@ -18,18 +18,29 @@ Recipe.getAllFilteredRecipes = async (request, response) => {
   const vegetable = request.query.vegetable;
   const other = request.query.other;
 
-  const key = process.env.RECIPE_API_KEY;
-  const url = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${key}&query=Taco&addRecipeInformation=true&number=100`
-  const urlResult = await superagent.get(url)
+  // const key = process.env.RECIPE_API_KEY;
+  // const url = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${key}&query=Taco&addRecipeInformation=true&number=100`
+  // const urlResult = await superagent.get(url)
   // const recipes = await RecipeModel.find({});
-  const filterMeat = Recipe.filterRecipes(tacoRec.results, meat.toLowerCase());
-  const filterVeg = Recipe.filterRecipes(filterMeat, vegetable.toLowerCase());
-  const filterOther = Recipe.filterRecipes(filterVeg, other.toLowerCase());
+  if (meat === 'Any') {
+    const filterVeg = Recipe.filterRecipes(tacoRec.results, vegetable.toLowerCase());
+    const filterOther = Recipe.filterRecipes(filterVeg, other.toLowerCase());
 
-  const searchedRecipes = filterOther.map(recipe => new ShinyRecipes(recipe));
+    const searchedRecipes = filterOther.map(recipe => new ShinyRecipes(recipe));
 
-  console.log(searchedRecipes);
-  response.status(200).json(searchedRecipes);
+    console.log(searchedRecipes);
+    response.status(200).json(searchedRecipes);
+  } else {
+    const filterMeat = Recipe.filterRecipes(tacoRec.results, meat.toLowerCase());
+    const filterVeg = Recipe.filterRecipes(filterMeat, vegetable.toLowerCase());
+    const filterOther = Recipe.filterRecipes(filterVeg, other.toLowerCase());
+
+    const searchedRecipes = filterOther.map(recipe => new ShinyRecipes(recipe));
+
+    console.log(searchedRecipes);
+    response.status(200).json(searchedRecipes);
+
+  }
 }
 
 class ShinyRecipes {
@@ -38,6 +49,7 @@ class ShinyRecipes {
       // this.ingredientName = recipe.analyzedInstructions.steps.ingredients.name,
       this.image = recipe.image,
       this.summary = recipe.summary;
+    this.id = recipe.id;
   }
 
 }
