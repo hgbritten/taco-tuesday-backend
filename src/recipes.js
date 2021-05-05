@@ -12,20 +12,21 @@ const tacoRec = require('../tacorecipes.json');
 
 
 Recipe.getAllFilteredRecipes = async (request, response) => {
-  const meat = 'beef'
-  // const meat = request.body.meat;
-  // const vegetable = request.body.vegetable;
-  // const other = request.body.other;
+  // const meat = 'beef'
+  const meat = request.query.meat;
+  console.log(request.query.meat);
+  const vegetable = request.query.vegetable;
+  const other = request.query.other;
 
   const key = process.env.RECIPE_API_KEY;
   const url = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${key}&query=Taco&addRecipeInformation=true&number=100`
   const urlResult = await superagent.get(url)
   // const recipes = await RecipeModel.find({});
-  const filterMeat = Recipe.filterRecipes(tacoRec.results, meat);
-  // const filterVeg = Recipe.filterRecipes(filterMeat, vegetable);
-  // const filterOther = Recipe.filterRecipes(filterVeg, other);
+  const filterMeat = Recipe.filterRecipes(tacoRec.results, meat.toLowerCase());
+  const filterVeg = Recipe.filterRecipes(filterMeat, vegetable.toLowerCase());
+  const filterOther = Recipe.filterRecipes(filterVeg, other.toLowerCase());
 
-  const searchedRecipes = filterMeat.map(recipe => new ShinyRecipes(recipe));
+  const searchedRecipes = filterOther.map(recipe => new ShinyRecipes(recipe));
 
   console.log(searchedRecipes);
   response.status(200).json(searchedRecipes);
