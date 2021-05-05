@@ -21,7 +21,7 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => console.log('Mongoose connected'));
 
 app.get('/recipes', Recipe.getAllFilteredRecipes);
-app.get('/recipes', Recipe.getUserRecipes);
+// app.get('/recipes', Recipe.getUserRecipes);
 app.get('/recipes/:id', Recipe.filterRecipes);
 app.delete('/recipes/:id', Recipe.deleteRecipe);
 
