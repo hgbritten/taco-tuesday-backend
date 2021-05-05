@@ -23,34 +23,107 @@ Recipe.getAllFilteredRecipes = async (request, response) => {
   // const urlResult = await superagent.get(url)
   // const recipes = await RecipeModel.find({});
   if (meat === 'Any') {
-    const filterVeg = Recipe.filterRecipes(tacoRec.results, vegetable.toLowerCase());
-    const filterOther = Recipe.filterRecipes(filterVeg, other.toLowerCase());
+    if (vegetable === 'Any') {
+      const filterOther = Recipe.filterRecipes(tacoRec.results, other.toLowerCase());
 
-    const searchedRecipes = filterOther.map(recipe => new ShinyRecipes(recipe));
+      const singleRecipes = filterOther.filter((val, idx, arr) => {
+        if (idx === 0) {
+          return val;
+        } else {
+          if (val.title !== arr[idx - 1].title) {
+            return val;
+          }
+        }
+      })
 
-    console.log(searchedRecipes);
-    response.status(200).json(searchedRecipes);
+      const searchedRecipes = singleRecipes.map(recipe => new ShinyRecipes(recipe));
+
+      console.log(searchedRecipes);
+      response.status(200).json(searchedRecipes);
+    } else {
+      const filterVeg = Recipe.filterRecipes(tacoRec.results, vegetable.toLowerCase());
+      const filterOther = Recipe.filterRecipes(filterVeg, other.toLowerCase());
+
+      const singleRecipes = filterOther.filter((val, idx, arr) => {
+        if (idx === 0) {
+          return val;
+        } else {
+          if (val.title !== arr[idx - 1].title) {
+            return val;
+          }
+        }
+      })
+
+      const searchedRecipes = singleRecipes.map(recipe => new ShinyRecipes(recipe));
+
+      console.log(searchedRecipes);
+      response.status(200).json(searchedRecipes);
+    }
   } else {
     const filterMeat = Recipe.filterRecipes(tacoRec.results, meat.toLowerCase());
-    const filterVeg = Recipe.filterRecipes(filterMeat, vegetable.toLowerCase());
-    const filterOther = Recipe.filterRecipes(filterVeg, other.toLowerCase());
-    console.log('filter', filterOther);
+    if (vegetable === 'Any') {
+      if (other === 'Any') {
+        const singleRecipes = filterMeat.filter((val, idx, arr) => {
+          if (idx === 0) {
+            return val;
+          } else {
+            if (val.title !== arr[idx - 1].title) {
+              return val;
+            }
+          }
+        })
 
-    const singleRecipes = filterOther.filter((val, idx, arr) => {
-      if (idx === 0) {
-        return val;
+        const searchedRecipes = singleRecipes.map(recipe => new ShinyRecipes(recipe));
+        console.log(searchedRecipes);
+        response.status(200).json(searchedRecipes);
       } else {
-        if (val.title !== arr[idx - 1].title) {
-          return val;
-        }
+        const filterOther = Recipe.filterRecipes(filterMeat, other.toLowerCase());
+
+        const searchedRecipes = filterOther.map(recipe => new ShinyRecipes(recipe));
+
+        console.log(searchedRecipes);
+        response.status(200).json(searchedRecipes);
+
       }
-    })
+    } else {
+      const filterVeg = Recipe.filterRecipes(filterMeat, vegetable.toLowerCase());
+      if (other === 'Any') {
 
-    // console.log(singleRecipes);
-    const searchedRecipes = singleRecipes.map(recipe => new ShinyRecipes(recipe));
+        const singleRecipes = filterVeg.filter((val, idx, arr) => {
+          if (idx === 0) {
+            return val;
+          } else {
+            if (val.title !== arr[idx - 1].title) {
+              return val;
+            }
+          }
+        })
 
-    console.log(searchedRecipes);
-    response.status(200).json(searchedRecipes);
+        const searchedRecipes = singleRecipes.map(recipe => new ShinyRecipes(recipe));
+
+        console.log(searchedRecipes);
+        response.status(200).json(searchedRecipes);
+      } else {
+
+        const filterOther = Recipe.filterRecipes(filterVeg, other.toLowerCase());
+        console.log('filter', filterOther);
+
+        const singleRecipes = filterOther.filter((val, idx, arr) => {
+          if (idx === 0) {
+            return val;
+          } else {
+            if (val.title !== arr[idx - 1].title) {
+              return val;
+            }
+          }
+        })
+
+        const searchedRecipes = singleRecipes.map(recipe => new ShinyRecipes(recipe));
+
+        console.log(searchedRecipes);
+        response.status(200).json(searchedRecipes);
+      }
+    }
 
   }
 }
