@@ -5,7 +5,7 @@ GET https://api.spoonacular.com/recipes/findByIngredients?apiKey=6b0a87b93e6f48e
 GET https://api.spoonacular.com/recipes/complexSearch?apiKey=6b0a87b93e6f48ebb4856d61f15a573d&query=Taco&addRecipeInformation=true&number=40
 
 ###
-POST http://localhost:3001/recipes/tim@gmail.com
+POST http://localhost:3001/recipes/huntergbritten@gmail.com
 content-type: application/json
 
 {

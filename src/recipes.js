@@ -221,7 +221,7 @@ Recipe.deleteRecipe = async (request, response) => {
     const id = request.params.id;
     console.log(id);
     await User.deleteOne({ _id: id });
-    response.status(200).send('tacos!');
+    response.status(200).send('tacos gone!');
   } catch (err) {
     console.error(err);
   }
