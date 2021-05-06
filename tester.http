@@ -13,3 +13,6 @@ content-type: application/json
   "image": "looks good",
   "summary": "really so yummy"
 }
+
+###
+GET http://localhost:3001/user-recipes?email=huntergbritten@gmail.com

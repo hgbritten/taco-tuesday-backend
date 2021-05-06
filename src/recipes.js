@@ -141,7 +141,9 @@ class ShinyRecipes {
 Recipe.getUserRecipes = async (request, response) => {
   const email = request.query.email;
 
-  await User.find({ email }), (err, users) => {
+  console.log(email);
+  await User.find({ email }, (err, users) => {
+    console.log('user 149', users);
     if (err) console.error(err);
     if (!users.length) {
       response.send('user not found');
@@ -149,13 +151,12 @@ Recipe.getUserRecipes = async (request, response) => {
       const user = users[0];
       response.send(user.recipes);
     }
-  }
+  })
 }
 
 Recipe.saveUserRecipe = (request, response) => {
-  const email = request.params.id;
-  console.log('made it', email, request.body);
-  const { title, image, summary } = request.body;
+  // console.log('made it', request.body);
+  const { title, image, email, summary } = request.body;
   const newRecipe = { title, image, summary };
   User.find({ email }, (err, users) => {
     console.log(users);
