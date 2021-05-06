@@ -1,15 +1,14 @@
 'use strict';
 const Recipe = {};
 
-const superagent = require('superagent');
+// const superagent = require('superagent');
 require('dotenv').config();
 
-
 const User = require('./recipe-model.js');
+// const hunter = new User({ email: 'huntergbritten@gmail.com', recipes: [{ title: 'great', image: 'jpg', summary: 'so yummy' }] });
+// hunter.save();
 const tacoRec = require('../tacorecipes.json');
 // const { response } = require('express');
-
-
 
 Recipe.getAllFilteredRecipes = async (request, response) => {
   // const meat = 'beef'
@@ -153,6 +152,30 @@ Recipe.getUserRecipes = async (request, response) => {
   }
 }
 
+Recipe.saveUserRecipe = (request, response) => {
+  const email = request.params.id;
+  console.log('made it', email, request.body);
+  const { title, image, summary } = request.body;
+  const newRecipe = { title, image, summary };
+  User.find({ email }, (err, users) => {
+    console.log(users);
+    if (err) console.error(err);
+    if (!users.length) {
+      let newUser = new User({ email: email, recipes: [{ title: title, image: image, summary: summary }] })
+      newUser.save();
+      response.send(newUser.recipes);
+      // if no user exists create one
+    } else {
+      const user = users[0];
+      console.log('user', user)
+      user.recipes.push(newRecipe);
+      user.save();
+      response.send(user.recipes);
+      // response.send(user.newRecipe);
+
+    }
+  })
+}
 
 Recipe.filterRecipes = (arr, target) => {
   const filteredRecipesArr = [];
