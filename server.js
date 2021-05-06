@@ -7,7 +7,8 @@ const cors = require('cors');
 app.use(cors());
 app.use(express.json());
 
-const PORT = process.env.PORT || 3002
+const PORT = process.env.PORT || 3001
+// const PORT = 3001
 const Recipe = require('./src/recipes');
 
 const mongoose = require('mongoose');
